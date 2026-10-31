@@ -1,0 +1,11 @@
+{
+  "name": "FAREZ FINANCE",
+  "short_name": "FAREZ FINANCE",
+  "description": "Application éducative de culture financière",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#090909",
+  "theme_color": "#090909",
+  "icons": [{"src":"icons/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}

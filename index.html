@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#090909">
+  <meta name="description" content="FAREZ FINANCE — apprendre à comprendre la banque, les paiements, la crypto et l'épargne.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <title>FAREZ FINANCE</title>
+  <style>
+    :root{--bg:#090909;--panel:#151515;--panel2:#1d1b16;--gold:#d8b45a;--gold2:#f2d88b;--muted:#aaa49a;--line:#302b20;--white:#f7f4ec}
+    *{box-sizing:border-box} body{margin:0;background:radial-gradient(ellipse at 85% -10%,#332815 0,transparent 42%),var(--bg);color:var(--white);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+    button,input{font:inherit} a{color:var(--gold2)} .wrap{max-width:1080px;margin:auto;padding:0 18px 90px}
+    header{display:flex;align-items:center;justify-content:space-between;padding:22px 0;border-bottom:1px solid var(--line);gap:12px}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:.11em}.logo{width:42px;height:42px;border:1px solid var(--gold);border-radius:13px;display:grid;place-items:center;color:var(--gold2);font-weight:900;font-size:22px}
+    .tag{color:var(--gold);font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+    .hero{padding:52px 0 30px;display:grid;grid-template-columns:1.35fr .65fr;gap:25px;align-items:center}
+    h1{font-size:clamp(36px,7vw,66px);line-height:1.02;margin:10px 0 18px;letter-spacing:-.045em} h1 span{color:var(--gold2)}
+    p{color:#c5c0b6}.lead{font-size:18px;max-width:650px}.hero-card{background:linear-gradient(145deg,#272116,#111);border:1px solid #544326;border-radius:22px;padding:24px}
+    .hero-card strong{display:block;font-size:25px;color:var(--gold2)} .hero-card small{color:var(--muted)}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.btn{border:1px solid var(--gold);background:var(--gold);color:#17130b;padding:12px 17px;border-radius:12px;font-weight:800;cursor:pointer}.btn.secondary{background:transparent;color:var(--gold2)}
+    nav{display:flex;gap:8px;overflow:auto;padding:12px 0 18px;position:sticky;top:0;background:#090909ed;z-index:3}
+    nav button{white-space:nowrap;border:1px solid var(--line);background:#141414;color:#ddd;padding:9px 14px;border-radius:999px;cursor:pointer}nav button.active{background:#342a17;border-color:var(--gold);color:var(--gold2)}
+    section{scroll-margin-top:75px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:28px 0 16px}.section-head h2{margin:0;font-size:25px}.section-head p{margin:0;font-size:13px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:linear-gradient(160deg,#1b1b1b,#111);border:1px solid var(--line);border-radius:18px;padding:19px;min-height:165px}
+    .ico{font-size:25px}.card h3{margin:8px 0 4px;color:var(--gold2)}.card p{font-size:14px;margin:0 0 14px}.text-btn{border:0;background:none;color:var(--gold2);padding:0;font-weight:750;cursor:pointer}
+    .feature{display:grid;grid-template-columns:1fr 1fr;gap:14px}.feature .card{min-height:0}
+    .lesson{display:none;background:#171717;border:1px solid #514326;border-radius:18px;padding:22px;margin-top:16px}.lesson.show{display:block}.lesson h3{color:var(--gold2);margin-top:0}
+    .quiz{background:#171717;border:1px solid var(--line);border-radius:18px;padding:20px}.quiz button.option{display:block;width:100%;text-align:left;margin:8px 0;background:#222;border:1px solid #39342a;color:#eee;padding:12px;border-radius:10px;cursor:pointer}.quiz button.option:hover{border-color:var(--gold)}
+    .feedback{min-height:25px;color:var(--gold2);font-weight:700}
+    .calc{display:flex;gap:10px;flex-wrap:wrap;align-items:end}.calc label{display:grid;gap:5px;color:var(--muted);font-size:13px}.calc input{width:100%;max-width:180px;background:#0e0e0e;border:1px solid #4a412e;color:white;padding:11px;border-radius:9px}.result{font-size:24px;color:var(--gold2);font-weight:850}
+    footer{border-top:1px solid var(--line);margin-top:45px;padding:22px 0;color:var(--muted);font-size:12px}
+    .notice{border-left:3px solid var(--gold);padding:12px 15px;background:#17140e;color:#d8d0bd;border-radius:0 10px 10px 0;font-size:13px}
+    @media(max-width:760px){.hero{grid-template-columns:1fr;padding-top:35px}.grid{grid-template-columns:1fr 1fr}.feature{grid-template-columns:1fr}.hero-card{max-width:none}}
+    @media(max-width:470px){.grid{grid-template-columns:1fr}.wrap{padding-left:14px;padding-right:14px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><div class="logo">F</div><div>FAREZ<br><span class="tag">FINANCE</span></div></div>
+    <div class="tag">Comprendre · Apprendre · Construire</div>
+  </header>
+
+  <main>
+    <section class="hero" id="accueil">
+      <div>
+        <div class="tag">L'éducation financière commence ici</div>
+        <h1>Maîtrise tes idées.<br><span>Comprends la finance.</span></h1>
+        <p class="lead">Un espace simple pour découvrir les banques, les paiements, l'épargne et les technologies financières — à ton rythme.</p>
+        <div class="actions"><button class="btn" onclick="document.querySelector('#modules').scrollIntoView({behavior:'smooth'})">Découvrir les modules</button><button class="btn secondary" onclick="document.querySelector('#academy').scrollIntoView({behavior:'smooth'})">Commencer un quiz</button></div>
+      </div>
+      <div class="hero-card"><div class="tag">FAREZ FINANCE</div><strong>Le savoir est un capital.</strong><p>Apprends les bases avant de prendre des décisions financières.</p><small>Version éducative · Accès gratuit</small></div>
+    </section>
+
+    <nav aria-label="Navigation principale">
+      <button class="active" data-target="accueil">Accueil</button><button data-target="modules">Modules</button><button data-target="academy">Academy</button><button data-target="outil">Outil budget</button><button data-target="apropos">À propos</button>
+    </nav>
+
+    <section id="modules">
+      <div class="section-head"><div><div class="tag">Explorer</div><h2>Nos six univers</h2></div><p>Apprendre sans risque</p></div>
+      <div class="grid">
+        <article class="card"><div class="ico">🏦</div><h3>FAREZ BANKING</h3><p>Découvre le rôle des banques, les comptes et les services bancaires.</p><button class="text-btn" onclick="lesson('banking')">Explorer →</button></article>
+        <article class="card"><div class="ico">📲</div><h3>FAREZ PAY</h3><p>Comprends le mobile money, les paiements et les bons réflexes de sécurité.</p><button class="text-btn" onclick="lesson('pay')">Explorer →</button></article>
+        <article class="card"><div class="ico">₿</div><h3>FAREZ CRYPTO</h3><p>Apprends ce que sont Bitcoin, la blockchain et les risques associés.</p><button class="text-btn" onclick="lesson('crypto')">Explorer →</button></article>
+        <article class="card"><div class="ico">💰</div><h3>FAREZ ÉPARGNE</h3><p>Découvre comment établir un budget et comprendre l'épargne.</p><button class="text-btn" onclick="lesson('epargne')">Explorer →</button></article>
+        <article class="card"><div class="ico">🎓</div><h3>FAREZ ACADEMY</h3><p>Des notions simples et des quiz pour vérifier tes connaissances.</p><button class="text-btn" onclick="lesson('academy')">Explorer →</button></article>
+        <article class="card"><div class="ico">🤝</div><h3>FAREZ CONNECT</h3><p>Un espace d'information sur les partenaires potentiels et les collaborations.</p><button class="text-btn" onclick="lesson('connect')">Explorer →</button></article>
+      </div>
+      <div class="lesson" id="lesson"><h3 id="lesson-title"></h3><div id="lesson-body"></div><button class="text-btn" onclick="document.querySelector('#lesson').classList.remove('show')">Fermer ↑</button></div>
+    </section>
+
+    <section id="academy">
+      <div class="section-head"><div><div class="tag">Apprendre en pratiquant</div><h2>Mini-quiz financier</h2></div></div>
+      <div class="quiz"><p id="question" style="color:#fff;font-weight:750">À quoi sert principalement un budget ?</p><div id="options"></div><div class="feedback" id="feedback" aria-live="polite"></div><button class="btn secondary" id="next">Question suivante</button></div>
+    </section>
+
+    <section id="outil">
+      <div class="section-head"><div><div class="tag">Outil pédagogique</div><h2>Simulateur de budget</h2></div></div>
+      <div class="card">
+        <p>Répartis un montant fictif entre tes dépenses, ton épargne et tes autres projets. Cet outil ne réalise aucun paiement.</p>
+        <div class="calc"><label>Montant disponible (FCFA)<input id="amount" type="number" min="0" value="50000"></label><label>Part à épargner (%)<input id="rate" type="number" min="0" max="100" value="20"></label><button class="btn" onclick="calculate()">Calculer</button></div>
+        <p class="result" id="saved">10 000 FCFA</p><p id="remaining">Il resterait 40 000 FCFA pour les autres dépenses.</p>
+      </div>
+    </section>
+
+    <section id="apropos">
+      <div class="section-head"><div><div class="tag">Notre mission</div><h2>La connaissance avant l'action</h2></div></div>
+      <div class="feature">
+        <div class="card"><h3>Notre vision</h3><p>Rendre les notions financières plus accessibles grâce à une éducation claire, progressive et responsable.</p></div>
+        <div class="card"><h3>Nos principes</h3><p>Transparence, prudence, apprentissage et respect de la vie privée.</p></div>
+      </div>
+      <p class="notice">FAREZ FINANCE est actuellement un projet éducatif indépendant. Il n'est pas une banque, un établissement de paiement, un conseiller financier ou une plateforme d'investissement. Aucun partenariat avec les entreprises citées ou évoquées n'est confirmé. Ne communique jamais tes mots de passe, codes secrets ou données bancaires.</p>
+    </section>
+  </main>
+  <footer>© <span id="year"></span> FAREZ FINANCE · Projet éducatif indépendant · Version web initiale</footer>
+</div>
+<script>
+const lessons={
+ banking:["FAREZ BANKING","Une banque est un établissement autorisé à fournir certains services financiers. Selon le pays et l'établissement, elle peut notamment conserver des dépôts, permettre des virements ou proposer des crédits. Les conditions et protections varient : il faut toujours lire les documents officiels."],
+ pay:["FAREZ PAY","Le mobile money permet d'effectuer certaines opérations avec un portefeuille électronique fourni par un opérateur autorisé. Avant toute opération, vérifie le destinataire, le montant et les frais. Ne partage jamais ton code secret, même avec une personne qui prétend travailler pour le service."],
+ crypto:["FAREZ CRYPTO","Bitcoin est un système numérique reposant sur une blockchain, un registre partagé. Les cryptoactifs sont très volatils et peuvent entraîner des pertes. Méfie-toi des promesses de gains garantis, des faux cadeaux et des demandes de phrase de récupération. Cette section est uniquement pédagogique."],
+ epargne:["FAREZ ÉPARGNE","Épargner consiste à mettre une partie de ses ressources de côté pour un objectif futur ou un imprévu. Un budget aide à distinguer les besoins, les envies et les objectifs. Commence par observer tes dépenses, sans te mettre en difficulté."],
+ academy:["FAREZ ACADEMY","La culture financière se construit progressivement : comprendre un budget, les intérêts, l'inflation, les frais, le risque et la sécurité numérique. Le quiz ci-dessous permet de réviser quelques notions."],
+ connect:["FAREZ CONNECT","Cette rubrique présente la vision du projet et pourra accueillir des informations sur de futurs partenaires. Aucun accord n'est actuellement conclu. Toute proposition officielle devra être examinée avec un adulte responsable et des professionnels compétents."]
+};
+function lesson(k){document.getElementById('lesson-title').textContent=lessons[k][0];document.getElementById('lesson-body').textContent=lessons[k][1];document.getElementById('lesson').classList.add('show');document.getElementById('lesson').scrollIntoView({behavior:'smooth',block:'nearest'})}
+const qs=[["À quoi sert principalement un budget ?",["À suivre ses revenus et ses dépenses","À garantir un bénéfice","À éviter tous les imprévus"],0,"Un budget aide à organiser et suivre l'argent disponible."],["Que faut-il faire de son code secret de paiement ?",["Le partager avec le support","Le garder confidentiel","L'écrire dans un message public"],1,"Un code secret ne doit jamais être communiqué."],["Une promesse de rendement garanti en crypto est…",["Une preuve de sécurité","Un signal d'alerte","Une garantie officielle"],1,"Les promesses de gains garantis sont un signal d'alerte."]];
+let qi=0;function renderQ(){let q=qs[qi];document.getElementById('question').textContent=q[0];let o=document.getElementById('options');o.innerHTML='';document.getElementById('feedback').textContent='';q[1].forEach((v,i)=>{let b=document.createElement('button');b.className='option';b.textContent=v;b.onclick=()=>{document.getElementById('feedback').textContent=(i===q[2]?'Bonne réponse. ':'Pas tout à fait. ')+q[3];[...o.children].forEach(x=>x.disabled=true)};o.appendChild(b)})}
+document.getElementById('next').onclick=()=>{qi=(qi+1)%qs.length;renderQ()};renderQ();
+function calculate(){let a=Math.max(0,Number(document.getElementById('amount').value)||0),r=Math.min(100,Math.max(0,Number(document.getElementById('rate').value)||0)),s=Math.round(a*r/100);document.getElementById('saved').textContent=s.toLocaleString('fr-FR')+' FCFA';document.getElementById('remaining').textContent='Il resterait '+(a-s).toLocaleString('fr-FR')+' FCFA pour les autres dépenses.'}
+calculate();document.getElementById('year').textContent=new Date().getFullYear();
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.target).scrollIntoView({behavior:'smooth'})}));
+if('serviceWorker' in navigator && location.protocol.startsWith('http')){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
+</script>
+</body></html>
