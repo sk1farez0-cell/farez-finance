@@ -88,6 +88,23 @@
       margin-bottom: 5px;
     }
 
+    .complete-btn {
+      background: #d4af37;
+      color: #080808;
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .complete-btn:disabled {
+      background: #51462f;
+      color: #eee1c5;
+      cursor: default;
+    }
+
     .notice {
       background: #211c10;
       border-left: 4px solid #d4af37;
@@ -141,6 +158,10 @@
           Découvre les notions de revenu, de dépense, de budget
           et de gestion responsable des ressources.
         </p>
+        <button class="complete-btn"
+          onclick="completeLesson('academy-course-1', 20, this)">
+          Terminer le parcours (+20 XP)
+        </button>
       </article>
 
       <article class="course">
@@ -150,6 +171,10 @@
           Apprends le rôle des banques, les différents types
           de comptes et les moyens de paiement.
         </p>
+        <button class="complete-btn"
+          onclick="completeLesson('academy-course-2', 20, this)">
+          Terminer le parcours (+20 XP)
+        </button>
       </article>
 
       <article class="course">
@@ -159,6 +184,10 @@
           Comprends comment définir un objectif, préparer un budget
           et développer de bonnes habitudes.
         </p>
+        <button class="complete-btn"
+          onclick="completeLesson('academy-course-3', 20, this)">
+          Terminer le parcours (+20 XP)
+        </button>
       </article>
 
       <article class="course">
@@ -168,6 +197,10 @@
           Explore les paiements numériques, la blockchain
           et les principes de sécurité en ligne.
         </p>
+        <button class="complete-btn"
+          onclick="completeLesson('academy-course-4', 20, this)">
+          Terminer le parcours (+20 XP)
+        </button>
       </article>
 
       <article class="course">
@@ -177,6 +210,10 @@
           Apprends à reconnaître les arnaques, les fausses promesses
           et les informations financières trompeuses.
         </p>
+        <button class="complete-btn"
+          onclick="completeLesson('academy-course-5', 20, this)">
+          Terminer le parcours (+20 XP)
+        </button>
       </article>
     </section>
 
@@ -210,6 +247,51 @@
     FAREZ FINANCE © 2026<br>
     Apprendre aujourd'hui, comprendre demain.
   </footer>
+
+  <script>
+    function completeLesson(lessonId, points, button) {
+      const completed = JSON.parse(
+        localStorage.getItem("farezCompletedLessons") || "[]"
+      );
+
+      if (completed.includes(lessonId)) {
+        button.textContent = "Parcours déjà terminé";
+        button.disabled = true;
+        return;
+      }
+
+      let xp = Number(localStorage.getItem("farezXP")) || 0;
+
+      xp += points;
+      completed.push(lessonId);
+
+      localStorage.setItem("farezXP", xp);
+      localStorage.setItem(
+        "farezCompletedLessons",
+        JSON.stringify(completed)
+      );
+
+      button.textContent = "Parcours terminé ✓";
+      button.disabled = true;
+    }
+
+    function restoreCompletedLessons() {
+      const completed = JSON.parse(
+        localStorage.getItem("farezCompletedLessons") || "[]"
+      );
+
+      document.querySelectorAll(".complete-btn").forEach(button => {
+        const match = button.getAttribute("onclick").match(/'([^']+)'/);
+
+        if (match && completed.includes(match[1])) {
+          button.textContent = "Parcours terminé ✓";
+          button.disabled = true;
+        }
+      });
+    }
+
+    restoreCompletedLessons();
+  </script>
 
 </body>
 </html>
