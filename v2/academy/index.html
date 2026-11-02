@@ -291,7 +291,83 @@
     }
 
     restoreCompletedLessons();
-  </script>
+  
+function getStoredArray(key) {
+  try {
+    const data = JSON.parse(localStorage.getItem(key) || "[]");
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function completeLesson(lessonId, points, button) {
+  const completed = getStoredArray("farezCompletedLessons");
+
+  if (completed.includes(lessonId)) {
+    button.textContent = "Activité déjà terminée ✓";
+    button.disabled = true;
+    return;
+  }
+
+  const xp = Math.max(
+    0,
+    Number(localStorage.getItem("farezXP")) || 0
+  );
+
+  const moduleName = lessonId.split("-")[0].toUpperCase();
+
+  const container = button.closest(
+    ".lesson, .course, .module, article, section"
+  );
+
+  const heading = container
+    ? container.querySelector("h2, h3")
+    : null;
+
+  const title = heading
+    ? heading.textContent.trim()
+    : lessonId;
+
+  const history = getStoredArray("farezActivityHistory");
+
+  history.push({
+    id: lessonId,
+    module: moduleName,
+    title: title,
+    points: points,
+    date: new Date().toISOString()
+  });
+
+  completed.push(lessonId);
+
+  localStorage.setItem("farezXP", xp + points);
+  localStorage.setItem(
+    "farezCompletedLessons",
+    JSON.stringify(completed)
+  );
+  localStorage.setItem(
+    "farezActivityHistory",
+    JSON.stringify(history)
+  );
+
+  button.textContent = "Activité terminée ✓";
+  button.disabled = true;
+}
+
+document.querySelectorAll("button[onclick]").forEach(button => {
+  const match = button.getAttribute("onclick").match(
+    /completeLesson\(['"]([^'"]+)['"]/
+  );
+
+  if (!match) return;
+
+  if (getStoredArray("farezCompletedLessons").includes(match[1])) {
+    button.textContent = "Activité terminée ✓";
+    button.disabled = true;
+  }
+});
+
 
 </body>
 </html>
