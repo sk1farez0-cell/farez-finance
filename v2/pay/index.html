@@ -66,6 +66,21 @@ h1 span,h2 { color:var(--gold); }
   line-height:1.6;
   font-size:13px;
 }
+.complete-btn {
+  background:var(--gold);
+  color:#090909;
+  border:0;
+  border-radius:8px;
+  padding:12px 16px;
+  margin-top:10px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.complete-btn:disabled {
+  background:#51462f;
+  color:#eee1c5;
+  cursor:default;
+}
 footer {
   text-align:center;
   color:var(--muted);
@@ -99,6 +114,10 @@ footer {
       consulter un solde, payer ou transférer de l'argent,
       selon le service et les règles applicables.
     </p>
+    <button class="complete-btn"
+      onclick="completeLesson('pay-lesson-1', 20, this)">
+      Terminer la leçon (+20 XP)
+    </button>
   </section>
 
   <section class="lesson">
@@ -110,6 +129,10 @@ footer {
       application ou un portefeuille numérique.
       Chaque service possède ses propres conditions et frais.
     </p>
+    <button class="complete-btn"
+      onclick="completeLesson('pay-lesson-2', 20, this)">
+      Terminer la leçon (+20 XP)
+    </button>
   </section>
 
   <section class="lesson">
@@ -121,6 +144,10 @@ footer {
       Un QR code peut aussi servir à identifier un bénéficiaire
       ou un paiement. Vérifie toujours les informations affichées.
     </p>
+    <button class="complete-btn"
+      onclick="completeLesson('pay-lesson-3', 20, this)">
+      Terminer la leçon (+20 XP)
+    </button>
   </section>
 
   <section class="lesson">
@@ -132,6 +159,10 @@ footer {
       et le montant avant toute opération. Méfie-toi des
       liens suspects et des demandes urgentes.
     </p>
+    <button class="complete-btn"
+      onclick="completeLesson('pay-lesson-4', 20, this)">
+      Terminer la leçon (+20 XP)
+    </button>
   </section>
 
   <h2>Les bonnes habitudes</h2>
@@ -150,5 +181,51 @@ footer {
 </main>
 
 <footer>FAREZ PAY • FAREZ FINANCE V2</footer>
+
+<script>
+function completeLesson(lessonId, points, button) {
+  const completed = JSON.parse(
+    localStorage.getItem("farezCompletedLessons") || "[]"
+  );
+
+  if (completed.includes(lessonId)) {
+    button.textContent = "Leçon déjà terminée";
+    button.disabled = true;
+    return;
+  }
+
+  let xp = Number(localStorage.getItem("farezXP")) || 0;
+
+  xp += points;
+  completed.push(lessonId);
+
+  localStorage.setItem("farezXP", xp);
+  localStorage.setItem(
+    "farezCompletedLessons",
+    JSON.stringify(completed)
+  );
+
+  button.textContent = "Leçon terminée ✓";
+  button.disabled = true;
+}
+
+function restoreCompletedLessons() {
+  const completed = JSON.parse(
+    localStorage.getItem("farezCompletedLessons") || "[]"
+  );
+
+  document.querySelectorAll(".complete-btn").forEach(button => {
+    const match = button.getAttribute("onclick").match(/'([^']+)'/);
+
+    if (match && completed.includes(match[1])) {
+      button.textContent = "Leçon terminée ✓";
+      button.disabled = true;
+    }
+  });
+}
+
+restoreCompletedLessons();
+</script>
+
 </body>
 </html>
