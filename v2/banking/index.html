@@ -58,6 +58,20 @@ h1 span,h2,h3 { color:var(--gold); }
   font-size:11px;
   letter-spacing:1px;
 }
+button {
+  background:var(--gold);
+  color:#090909;
+  border:0;
+  border-radius:8px;
+  padding:12px 15px;
+  margin-top:10px;
+  font-weight:bold;
+  cursor:pointer;
+}
+button:disabled {
+  opacity:0.65;
+  cursor:default;
+}
 .notice {
   border-left:3px solid var(--gold);
   padding:12px;
@@ -101,7 +115,7 @@ footer {
     <button onclick="completeLesson('banking-lesson-1', 20, this)">
       Terminer la leçon (+20 XP)
     </button>
-</section>
+  </section>
 
   <section class="lesson">
     <p class="label">LEÇON 02</p>
@@ -111,6 +125,9 @@ footer {
       quotidiennes. Un compte d'épargne permet de mettre de
       l'argent de côté selon les conditions de la banque.
     </p>
+    <button onclick="completeLesson('banking-lesson-2', 20, this)">
+      Terminer la leçon (+20 XP)
+    </button>
   </section>
 
   <section class="lesson">
@@ -122,6 +139,9 @@ footer {
       repose sur une facilité de crédit. Une carte prépayée
       utilise un montant chargé à l'avance.
     </p>
+    <button onclick="completeLesson('banking-lesson-3', 20, this)">
+      Terminer la leçon (+20 XP)
+    </button>
   </section>
 
   <section class="lesson">
@@ -133,6 +153,9 @@ footer {
       des messages qui réclament tes informations bancaires.
       En cas de doute, contacte ta banque par un canal officiel.
     </p>
+    <button onclick="completeLesson('banking-lesson-4', 20, this)">
+      Terminer la leçon (+20 XP)
+    </button>
   </section>
 
   <h2>Les principes à retenir</h2>
@@ -151,14 +174,15 @@ footer {
 </main>
 
 <footer>FAREZ BANKING • FAREZ FINANCE V2</footer>
-  <script>
+
+<script>
 function completeLesson(lessonId, points, button) {
   const completed = JSON.parse(
     localStorage.getItem("farezCompletedLessons") || "[]"
   );
 
   if (completed.includes(lessonId)) {
-    button.textContent = "Leçon déjà terminée";
+    button.textContent = "Leçon déjà terminée ✓";
     button.disabled = true;
     return;
   }
@@ -166,7 +190,6 @@ function completeLesson(lessonId, points, button) {
   let xp = Number(localStorage.getItem("farezXP")) || 0;
 
   xp += points;
-
   completed.push(lessonId);
 
   localStorage.setItem("farezXP", xp);
@@ -178,6 +201,21 @@ function completeLesson(lessonId, points, button) {
   button.textContent = "Leçon terminée ✓";
   button.disabled = true;
 }
+
+document.querySelectorAll(".lesson button").forEach(button => {
+  const match = button.getAttribute("onclick").match(/'([^']+)'/);
+  if (!match) return;
+
+  const completed = JSON.parse(
+    localStorage.getItem("farezCompletedLessons") || "[]"
+  );
+
+  if (completed.includes(match[1])) {
+    button.textContent = "Leçon terminée ✓";
+    button.disabled = true;
+  }
+});
 </script>
+
 </body>
 </html>
