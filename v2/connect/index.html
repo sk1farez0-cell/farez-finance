@@ -87,6 +87,23 @@
       margin-bottom: 5px;
     }
 
+    .complete-btn {
+      background: #d4af37;
+      color: #080808;
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .complete-btn:disabled {
+      background: #51462f;
+      color: #eee1c5;
+      cursor: default;
+    }
+
     .notice {
       background: #211c10;
       border-left: 4px solid #d4af37;
@@ -139,6 +156,10 @@
           Un espace pour échanger des idées et discuter
           de notions financières dans un cadre respectueux.
         </p>
+        <button class="complete-btn"
+          onclick="completeLesson('connect-space-1', 20, this)">
+          Découvrir l'espace (+20 XP)
+        </button>
       </article>
 
       <article class="card">
@@ -148,6 +169,10 @@
           Des activités pédagogiques pour développer
           sa curiosité et apprendre progressivement.
         </p>
+        <button class="complete-btn"
+          onclick="completeLesson('connect-space-2', 20, this)">
+          Découvrir l'espace (+20 XP)
+        </button>
       </article>
 
       <article class="card">
@@ -157,6 +182,10 @@
           Découvre des ressources éducatives, des explications
           et des idées utiles pour progresser.
         </p>
+        <button class="complete-btn"
+          onclick="completeLesson('connect-space-3', 20, this)">
+          Découvrir l'espace (+20 XP)
+        </button>
       </article>
 
       <article class="card">
@@ -166,6 +195,10 @@
           Retrouve les annonces, les nouveautés et les événements
           pédagogiques de FAREZ FINANCE.
         </p>
+        <button class="complete-btn"
+          onclick="completeLesson('connect-space-4', 20, this)">
+          Découvrir l'espace (+20 XP)
+        </button>
       </article>
     </section>
 
@@ -200,6 +233,51 @@
     FAREZ FINANCE © 2026<br>
     Ensemble, apprenons et progressons.
   </footer>
+
+  <script>
+    function completeLesson(lessonId, points, button) {
+      const completed = JSON.parse(
+        localStorage.getItem("farezCompletedLessons") || "[]"
+      );
+
+      if (completed.includes(lessonId)) {
+        button.textContent = "Espace déjà découvert";
+        button.disabled = true;
+        return;
+      }
+
+      let xp = Number(localStorage.getItem("farezXP")) || 0;
+
+      xp += points;
+      completed.push(lessonId);
+
+      localStorage.setItem("farezXP", xp);
+      localStorage.setItem(
+        "farezCompletedLessons",
+        JSON.stringify(completed)
+      );
+
+      button.textContent = "Espace découvert ✓";
+      button.disabled = true;
+    }
+
+    function restoreCompletedLessons() {
+      const completed = JSON.parse(
+        localStorage.getItem("farezCompletedLessons") || "[]"
+      );
+
+      document.querySelectorAll(".complete-btn").forEach(button => {
+        const match = button.getAttribute("onclick").match(/'([^']+)'/);
+
+        if (match && completed.includes(match[1])) {
+          button.textContent = "Espace découvert ✓";
+          button.disabled = true;
+        }
+      });
+    }
+
+    restoreCompletedLessons();
+  </script>
 
 </body>
 </html>
