@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAREZ PROFIL</title>
+<style>
+:root {
+  --gold: #d4af37;
+  --bg: #080808;
+  --card: #151515;
+  --muted: #aaa;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 25px 18px 100px;
+  background: var(--bg);
+  color: white;
+  font-family: Arial, sans-serif;
+}
+header {
+  text-align: center;
+  padding: 20px 0;
+}
+.brand {
+  color: var(--gold);
+  font-size: 25px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+.subtitle {
+  color: var(--muted);
+  margin-top: 8px;
+}
+h1 {
+  text-align: center;
+  margin: 25px 0;
+}
+h2 { color: var(--gold); font-size: 18px; }
+.card {
+  background: var(--card);
+  border: 1px solid #44391f;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+input {
+  width: 100%;
+  padding: 13px;
+  border-radius: 8px;
+  border: 1px solid var(--gold);
+  background: #080808;
+  color: white;
+  margin: 10px 0;
+}
+button {
+  background: var(--gold);
+  color: black;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.stat {
+  color: var(--gold);
+  font-size: 27px;
+  font-weight: bold;
+}
+.badge {
+  display: inline-block;
+  border: 1px solid var(--gold);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 5px;
+  color: var(--gold);
+}
+a { color: var(--gold); text-decoration: none; }
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 30px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">FAREZ FINANCE</div>
+  <div class="subtitle">LEARN • MANAGE • GROW</div>
+</header>
+
+<h1>MON PROFIL</h1>
+
+<section class="card">
+  <h2>Mon identité d'apprenant</h2>
+  <p>Choisis un pseudonyme pour ton parcours.</p>
+  <input id="nickname" maxlength="25"
+         placeholder="Ton pseudonyme">
+  <button onclick="saveName()">Enregistrer</button>
+  <p id="greeting">Bienvenue dans ton espace !</p>
+</section>
+
+<section class="card">
+  <h2>Mon niveau</h2>
+  <div class="stat">Débutant</div>
+  <p>Ton parcours commence ici.</p>
+  <p>0 XP / 200 XP pour le prochain niveau</p>
+</section>
+
+<section class="card">
+  <h2>Mes points XP</h2>
+  <div class="stat">0 XP</div>
+  <p>Les XP récompensent tes apprentissages.</p>
+</section>
+
+<section class="card">
+  <h2>Mes badges</h2>
+  <div class="badge">Premier pas</div>
+  <div class="badge">Esprit curieux</div>
+  <div class="badge">Passionné du savoir</div>
+  <div class="badge">Académicien</div>
+  <p>Les badges seront débloqués au fil de ton apprentissage.</p>
+</section>
+
+<section class="card">
+  <h2>Mon parcours</h2>
+  <p>Leçons terminées : 0</p>
+  <p>Modules étudiés : 0</p>
+  <p>Progression : à commencer</p>
+</section>
+
+<footer>
+  FAREZ FINANCE — Apprendre aujourd'hui, progresser demain.
+  <p>Profil éducatif — Aucune opération financière réelle.</p>
+  <a href="../index.html">Retour à l'accueil</a>
+</footer>
+
+<script>
+function saveName() {
+  const name = document.getElementById("nickname").value.trim();
+  if (!name) return;
+  document.getElementById("greeting").textContent =
+    "Bienvenue, " + name + " !";
+}
+</script>
+
+</body>
+</html>
