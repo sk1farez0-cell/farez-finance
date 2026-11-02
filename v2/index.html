@@ -55,12 +55,48 @@ h1 span, h2 { color: var(--gold); }
 }
 .module h3 { color: var(--gold); font-size: 14px; }
 .module p { color: var(--muted); font-size: 12px; line-height: 1.5; }
+.module-link { display: block; text-decoration: none; color: inherit; }
 .progress {
   background: var(--panel);
   padding: 20px;
   border-radius: 14px;
   border: 1px solid #393020;
   margin-top: 15px;
+}
+.progress-track {
+  height: 12px;
+  background: #333;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 15px 0;
+}
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--gold);
+  transition: width .3s;
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+.stat-box {
+  background: #101010;
+  border: 1px solid #393020;
+  border-radius: 10px;
+  padding: 14px;
+}
+.stat-value {
+  color: var(--gold);
+  font-size: 23px;
+  font-weight: bold;
+}
+.stat-label {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 6px;
 }
 nav {
   position: fixed;
@@ -81,6 +117,7 @@ footer { color: var(--muted); text-align: center; font-size: 11px; padding: 25px
 </style>
 </head>
 <body>
+
 <header>
   <div>
     <div class="brand">FAREZ FINANCE</div>
@@ -95,56 +132,89 @@ footer { color: var(--muted); text-align: center; font-size: 11px; padding: 25px
   <p class="intro" id="description">Découvrez nos espaces éducatifs et développez vos connaissances financières, à votre rythme.</p>
 
   <h2 class="section-title" id="modulesTitle">Nos six modules</h2>
+
   <section class="grid">
-    <a href="banking/" style="display:block;text-decoration:none;color:inherit;">
-<article class="module">
-      <h3>01 — FAREZ BANKING</h3>
-      <p>Comprendre les banques, les comptes et les cartes.</p>
-    </article>
-      </a>
-    <a href="pay/" style="display:block;text-decoration:none;color:inherit;">
-<article class="module">
-      <h3>02 — FAREZ PAY</h3>
-      <p>Découvrir les paiements numériques et Mobile Money.</p>
-  </article>
+    <a class="module-link" href="banking/">
+      <article class="module">
+        <h3>01 — FAREZ BANKING</h3>
+        <p>Comprendre les banques, les comptes et les cartes.</p>
+      </article>
     </a>
-    <a href="crypto/" style="display:block;text-decoration:none;color:inherit;">
-<article class="module">
-      <h3>03 — FAREZ CRYPTO</h3>
-      <p>Apprendre les bases de la blockchain et des cryptomonnaies.</p>
-    </article>
+
+    <a class="module-link" href="pay/">
+      <article class="module">
+        <h3>02 — FAREZ PAY</h3>
+        <p>Découvrir les paiements numériques et Mobile Money.</p>
+      </article>
     </a>
-    <article class="module">
-      <a href="epargne/" style="display:block;text-decoration:none;color:inherit;">
-<article class="module">
-      <h3>04 — FAREZ ÉPARGNE</h3>
-      <p>Découvrir le budget, les objectifs et l'épargne.</p>
-</article>
-</a>
-<article class="module">
-      <a href="academy/" style="display:block;text-decoration:none;color:inherit;">
-<article class="module">
-      <h3>05 — FAREZ ACADEMY</h3>
-      <p>Suivre des cours et progresser dans ses connaissances.</p>
-</article>
-</a>
-<a href="connect/" style="display:block;text-decoration:none;color:inherit;">
-<article class="module">
-      <h3>06 — FAREZ CONNECT</h3>
-      <p>Partager des idées et apprendre avec une communauté.</p>
-</article>
-</a>
-</section>
+
+    <a class="module-link" href="crypto/">
+      <article class="module">
+        <h3>03 — FAREZ CRYPTO</h3>
+        <p>Apprendre les bases de la blockchain et des cryptomonnaies.</p>
+      </article>
+    </a>
+
+    <a class="module-link" href="epargne/">
+      <article class="module">
+        <h3>04 — FAREZ ÉPARGNE</h3>
+        <p>Découvrir le budget, les objectifs et l'épargne.</p>
+      </article>
+    </a>
+
+    <a class="module-link" href="academy/">
+      <article class="module">
+        <h3>05 — FAREZ ACADEMY</h3>
+        <p>Suivre des cours et progresser dans ses connaissances.</p>
+      </article>
+    </a>
+
+    <a class="module-link" href="connect/">
+      <article class="module">
+        <h3>06 — FAREZ CONNECT</h3>
+        <p>Partager des idées et apprendre avec une communauté.</p>
+      </article>
+    </a>
+  </section>
 
   <h2 class="section-title" id="continueTitle">Continuez votre apprentissage</h2>
+
   <section class="progress">
     <h3 id="progressTitle">Votre progression</h3>
     <p class="intro" id="progressText">Votre parcours éducatif commence ici. Chaque leçon vous aide à avancer.</p>
+
+    <div class="progress-track">
+      <div class="progress-fill" id="progressBar"></div>
+    </div>
+
+    <p id="percentage">0 % terminé</p>
+
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-value" id="homeXP">0</div>
+        <div class="stat-label" id="xpLabel">XP cumulés</div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-value" id="homeLessons">0 / 25</div>
+        <div class="stat-label" id="lessonsLabel">Leçons terminées</div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-value" id="homeModules">0 / 6</div>
+        <div class="stat-label" id="modulesLabel">Modules étudiés</div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-value" id="homeStatus">0 %</div>
+        <div class="stat-label" id="statusLabel">Progression globale</div>
+      </div>
+    </div>
   </section>
 </main>
 
 <nav>
-  <a href="./">Accueil</a>
+  <a href="./" id="navHome">Accueil</a>
   <a href="academy/">Academy</a>
   <a href="epargne/">Épargne</a>
   <a href="connect/">Connect</a>
@@ -155,26 +225,119 @@ footer { color: var(--muted); text-align: center; font-size: 11px; padding: 25px
 
 <script>
 let english = false;
+
+const moduleNames = [
+  "banking", "pay", "crypto",
+  "epargne", "academy", "connect"
+];
+
+const totalLessons = 25;
+
+function getLessons() {
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem("farezCompletedLessons") || "[]"
+    );
+    return Array.isArray(saved) ? saved : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function updateHomeProgress() {
+  const lessons = getLessons();
+
+  const completedModules = new Set(
+    lessons
+      .filter(id => typeof id === "string")
+      .map(id => id.split("-")[0])
+      .filter(name => moduleNames.includes(name))
+  );
+
+  const xp = Math.max(
+    0,
+    Number(localStorage.getItem("farezXP")) || 0
+  );
+
+  const lessonCount = lessons.length;
+  const moduleCount = completedModules.size;
+  const percentage = Math.min(
+    100,
+    Math.round((lessonCount / totalLessons) * 100)
+  );
+
+  document.getElementById("homeXP").textContent = xp;
+  document.getElementById("homeLessons").textContent =
+    lessonCount + " / " + totalLessons;
+  document.getElementById("homeModules").textContent =
+    moduleCount + " / 6;
+  document.getElementById("homeStatus").textContent =
+    percentage + " %";
+  document.getElementById("percentage").textContent =
+    percentage + " % " + (english ? "completed" : "terminé");
+
+  document.getElementById("progressBar").style.width =
+    percentage + "%";
+
+  document.getElementById("progressText").textContent =
+    lessonCount === 0
+      ? (english
+          ? "Your learning journey starts here. Complete a lesson to begin."
+          : "Votre parcours commence ici. Terminez une leçon pour commencer.")
+      : (english
+          ? "You have completed " + lessonCount + " lessons. Keep learning!"
+          : "Vous avez terminé " + lessonCount + " leçon(s). Continuez ainsi !");
+}
+
 function toggleLanguage() {
   english = !english;
-  document.getElementById("language").textContent = english ? "FR" : "EN";
+
+  document.getElementById("language").textContent =
+    english ? "FR" : "EN";
+
   document.documentElement.lang = english ? "en" : "fr";
+
   document.getElementById("welcome").textContent = english
     ? "WELCOME TO YOUR FINANCIAL WORLD"
     : "BIENVENUE DANS VOTRE UNIVERS FINANCIER";
+
   document.getElementById("headline").innerHTML = english
     ? 'Learn to understand <span>finance better.</span>'
     : 'Apprenez à mieux comprendre <span>la finance.</span>';
+
   document.getElementById("description").textContent = english
     ? "Explore our educational spaces and develop your financial knowledge at your own pace."
     : "Découvrez nos espaces éducatifs et développez vos connaissances financières, à votre rythme.";
-  document.getElementById("modulesTitle").textContent = english ? "Our six modules" : "Nos six modules";
-  document.getElementById("continueTitle").textContent = english ? "Continue learning" : "Continuez votre apprentissage";
-  document.getElementById("progressTitle").textContent = english ? "Your progress" : "Votre progression";
-  document.getElementById("progressText").textContent = english
-    ? "Your learning journey starts here. Every lesson helps you move forward."
-    : "Votre parcours éducatif commence ici. Chaque leçon vous aide à avancer.";
+
+  document.getElementById("modulesTitle").textContent =
+    english ? "Our six modules" : "Nos six modules";
+
+  document.getElementById("continueTitle").textContent =
+    english ? "Continue learning" : "Continuez votre apprentissage";
+
+  document.getElementById("progressTitle").textContent =
+    english ? "Your progress" : "Votre progression";
+
+  document.getElementById("xpLabel").textContent =
+    english ? "Total XP" : "XP cumulés";
+
+  document.getElementById("lessonsLabel").textContent =
+    english ? "Lessons completed" : "Leçons terminées";
+
+  document.getElementById("modulesLabel").textContent =
+    english ? "Modules studied" : "Modules étudiés";
+
+  document.getElementById("statusLabel").textContent =
+    english ? "Overall progress" : "Progression globale";
+
+  document.getElementById("navHome").textContent =
+    english ? "Home" : "Accueil";
+
+  updateHomeProgress();
 }
+
+updateHomeProgress();
 </script>
+
 </body>
 </html>
