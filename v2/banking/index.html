@@ -98,7 +98,10 @@ footer {
       notamment des services de dépôt, de paiement et de crédit.
       Elle permet à ses clients de gérer leur argent.
     </p>
-  </section>
+    <button onclick="completeLesson('banking-lesson-1', 20, this)">
+      Terminer la leçon (+20 XP)
+    </button>
+</section>
 
   <section class="lesson">
     <p class="label">LEÇON 02</p>
@@ -148,5 +151,33 @@ footer {
 </main>
 
 <footer>FAREZ BANKING • FAREZ FINANCE V2</footer>
+  <script>
+function completeLesson(lessonId, points, button) {
+  const completed = JSON.parse(
+    localStorage.getItem("farezCompletedLessons") || "[]"
+  );
+
+  if (completed.includes(lessonId)) {
+    button.textContent = "Leçon déjà terminée";
+    button.disabled = true;
+    return;
+  }
+
+  let xp = Number(localStorage.getItem("farezXP")) || 0;
+
+  xp += points;
+
+  completed.push(lessonId);
+
+  localStorage.setItem("farezXP", xp);
+  localStorage.setItem(
+    "farezCompletedLessons",
+    JSON.stringify(completed)
+  );
+
+  button.textContent = "Leçon terminée ✓";
+  button.disabled = true;
+}
+</script>
 </body>
 </html>
