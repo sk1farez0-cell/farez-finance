@@ -87,6 +87,23 @@
       margin-bottom: 5px;
     }
 
+    .complete-btn {
+      background: #d4af37;
+      color: #080808;
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .complete-btn:disabled {
+      background: #51462f;
+      color: #eee1c5;
+      cursor: default;
+    }
+
     .notice {
       background: #211c10;
       border-left: 4px solid #d4af37;
@@ -140,6 +157,10 @@
           de côté pour un besoin futur. Cela demande de la patience,
           de l'organisation et un objectif réaliste.
         </p>
+        <button class="complete-btn"
+          onclick="completeLesson('epargne-lesson-1', 20, this)">
+          Terminer la leçon (+20 XP)
+        </button>
       </article>
 
       <article class="lesson">
@@ -150,6 +171,10 @@
           Il peut être à court, moyen ou long terme.
           Il doit rester adapté à sa situation.
         </p>
+        <button class="complete-btn"
+          onclick="completeLesson('epargne-lesson-2', 20, this)">
+          Terminer la leçon (+20 XP)
+        </button>
       </article>
 
       <article class="lesson">
@@ -160,6 +185,10 @@
           aux dépenses prévues. Il aide à distinguer les besoins,
           les envies et les priorités.
         </p>
+        <button class="complete-btn"
+          onclick="completeLesson('epargne-lesson-3', 20, this)">
+          Terminer la leçon (+20 XP)
+        </button>
       </article>
 
       <article class="lesson">
@@ -170,6 +199,10 @@
           régulièrement ses objectifs sont des habitudes utiles.
           Il faut aussi garder une marge pour les imprévus.
         </p>
+        <button class="complete-btn"
+          onclick="completeLesson('epargne-lesson-4', 20, this)">
+          Terminer la leçon (+20 XP)
+        </button>
       </article>
     </section>
 
@@ -221,6 +254,51 @@
     FAREZ FINANCE © 2026<br>
     Module éducatif — Aucun service financier réel proposé.
   </footer>
+
+  <script>
+    function completeLesson(lessonId, points, button) {
+      const completed = JSON.parse(
+        localStorage.getItem("farezCompletedLessons") || "[]"
+      );
+
+      if (completed.includes(lessonId)) {
+        button.textContent = "Leçon déjà terminée";
+        button.disabled = true;
+        return;
+      }
+
+      let xp = Number(localStorage.getItem("farezXP")) || 0;
+
+      xp += points;
+      completed.push(lessonId);
+
+      localStorage.setItem("farezXP", xp);
+      localStorage.setItem(
+        "farezCompletedLessons",
+        JSON.stringify(completed)
+      );
+
+      button.textContent = "Leçon terminée ✓";
+      button.disabled = true;
+    }
+
+    function restoreCompletedLessons() {
+      const completed = JSON.parse(
+        localStorage.getItem("farezCompletedLessons") || "[]"
+      );
+
+      document.querySelectorAll(".complete-btn").forEach(button => {
+        const match = button.getAttribute("onclick").match(/'([^']+)'/);
+
+        if (match && completed.includes(match[1])) {
+          button.textContent = "Leçon terminée ✓";
+          button.disabled = true;
+        }
+      });
+    }
+
+    restoreCompletedLessons();
+  </script>
 
 </body>
 </html>
