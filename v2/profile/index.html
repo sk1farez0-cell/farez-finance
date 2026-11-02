@@ -30,14 +30,8 @@ header {
   font-weight: bold;
   letter-spacing: 2px;
 }
-.subtitle {
-  color: var(--muted);
-  margin-top: 8px;
-}
-h1 {
-  text-align: center;
-  margin: 25px 0;
-}
+.subtitle { color: var(--muted); margin-top: 8px; }
+h1 { text-align: center; margin: 25px 0; }
 h2 { color: var(--gold); font-size: 18px; }
 .card {
   background: var(--card);
@@ -71,11 +65,28 @@ button {
 }
 .badge {
   display: inline-block;
-  border: 1px solid var(--gold);
+  border: 1px solid #555;
   border-radius: 10px;
   padding: 10px;
   margin: 5px;
+  color: #777;
+}
+.badge.unlocked {
+  border-color: var(--gold);
   color: var(--gold);
+}
+.progress-track {
+  height: 12px;
+  background: #333;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 12px 0;
+}
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--gold);
+  transition: width .3s;
 }
 a { color: var(--gold); text-decoration: none; }
 footer {
@@ -98,17 +109,19 @@ footer {
 <section class="card">
   <h2>Mon identité d'apprenant</h2>
   <p>Choisis un pseudonyme pour ton parcours.</p>
-  <input id="nickname" maxlength="25"
-         placeholder="Ton pseudonyme">
+  <input id="nickname" maxlength="25" placeholder="Ton pseudonyme">
   <button onclick="saveName()">Enregistrer</button>
   <p id="greeting">Bienvenue dans ton espace !</p>
 </section>
 
 <section class="card">
   <h2>Mon niveau</h2>
-  <div class="stat">Débutant</div>
-  <p>Ton parcours commence ici.</p>
-  <p>0 XP / 200 XP pour le prochain niveau</p>
+  <div class="stat" id="levelDisplay">Débutant</div>
+  <p id="levelDescription">Ton parcours commence ici.</p>
+  <p id="levelProgress">0 XP / 200 XP pour le prochain niveau</p>
+  <div class="progress-track">
+    <div class="progress-fill" id="levelBar"></div>
+  </div>
 </section>
 
 <section class="card">
@@ -119,18 +132,15 @@ footer {
 
 <section class="card">
   <h2>Mes badges</h2>
-  <div class="badge">Premier pas</div>
-  <div class="badge">Esprit curieux</div>
-  <div class="badge">Passionné du savoir</div>
-  <div class="badge">Académicien</div>
-  <p>Les badges seront débloqués au fil de ton apprentissage.</p>
+  <div id="badgesDisplay"></div>
+  <p id="badgeDescription">Continue à apprendre pour débloquer tes badges.</p>
 </section>
 
 <section class="card">
   <h2>Mon parcours</h2>
-  <p>Leçons terminées : 0</p>
-  <p>Modules étudiés : 0</p>
-  <p>Progression : à commencer</p>
+  <p>Leçons terminées : <strong id="lessonCount">0</strong></p>
+  <p>Modules étudiés : <strong id="moduleCount">0</strong> / 6</p>
+  <p>Progression : <strong id="journeyProgress">À commencer</strong></p>
 </section>
 
 <footer>
@@ -140,18 +150,109 @@ footer {
 </footer>
 
 <script>
-let xp = Number(localStorage.getItem("farezXP")) || 0;
+let xp = Math.max(0, Number(localStorage.getItem("farezXP")) || 0);
 
-function updateXP() {
+const levels = [
+  { name: "Débutant", min: 0, max: 200 },
+  { name: "Explorateur", min: 200, max: 500 },
+  { name: "Apprenant confirmé", min: 500, max: 1000 },
+  { name: "Expert en apprentissage", min: 1000, max: 2000 },
+  { name: "Maître du savoir", min: 2000, max: Infinity }
+];
+
+const badgeList = [
+  { name: "Premier pas", count: 1 },
+  { name: "Esprit curieux", count: 5 },
+  { name: "Passionné du savoir", count: 10 },
+  { name: "Académicien", count: 20 }
+];
+
+function getCompletedLessons() {
+  try {
+    const data = JSON.parse(
+      localStorage.getItem("farezCompletedLessons") || "[]"
+    );
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function updateProfile() {
+  const lessons = getCompletedLessons();
+
+  const modules = new Set(
+    lessons
+      .filter(id => typeof id === "string" && id.includes("-"))
+      .map(id => id.split("-")[0])
+      .filter(id => [
+        "banking", "pay", "crypto",
+        "epargne", "academy", "connect"
+      ].includes(id))
+  );
+
   document.getElementById("xpDisplay").textContent = xp + " XP";
+  document.getElementById("lessonCount").textContent = lessons.length;
+  document.getElementById("moduleCount").textContent = modules.size;
+
+  const level = levels.find(
+    item => xp >= item.min && xp < item.max
+  );
+
+  document.getElementById("levelDisplay").textContent = level.name;
+
+  if (level.max === Infinity) {
+    document.getElementById("levelDescription").textContent =
+      "Tu as atteint le niveau maximal !";
+    document.getElementById("levelProgress").textContent =
+      "Niveau maximal atteint : " + xp + " XP";
+    document.getElementById("levelBar").style.width = "100%";
+  } else {
+    const earned = xp - level.min;
+    const needed = level.max - level.min;
+    const percentage = Math.min(100, (earned / needed) * 100);
+
+    document.getElementById("levelDescription").textContent =
+      "Continue ton apprentissage pour progresser.";
+
+    document.getElementById("levelProgress").textContent =
+      earned + " XP / " + needed + " XP pour le prochain niveau";
+
+    document.getElementById("levelBar").style.width =
+      percentage + "%";
+  }
+
+  let unlocked = 0;
+  const badgeArea = document.getElementById("badgesDisplay");
+  badgeArea.innerHTML = "";
+
+  badgeList.forEach(badge => {
+    const isUnlocked = lessons.length >= badge.count;
+    if (isUnlocked) unlocked++;
+
+    const element = document.createElement("div");
+    element.className = "badge" + (isUnlocked ? " unlocked" : "");
+    element.textContent =
+      (isUnlocked ? "★ " : "🔒 ") + badge.name;
+
+    badgeArea.appendChild(element);
+  });
+
+  document.getElementById("badgeDescription").textContent =
+    unlocked + " badge(s) débloqué(s) sur " + badgeList.length;
+
+  document.getElementById("journeyProgress").textContent =
+    lessons.length === 0 ? "À commencer" :
+    modules.size === 6 ? "Tous les modules étudiés" :
+    "En cours";
 }
 
 function addXP(points) {
-  if (points <= 0) return;
+  if (!Number.isFinite(points) || points <= 0) return;
 
   xp += points;
   localStorage.setItem("farezXP", xp);
-  updateXP();
+  updateProfile();
 }
 
 function saveName() {
@@ -159,12 +260,20 @@ function saveName() {
 
   if (!name) return;
 
+  localStorage.setItem("farezNickname", name);
   document.getElementById("greeting").textContent =
     "Bienvenue, " + name + " !";
 }
 
-updateXP();
-</script>
+const savedName = localStorage.getItem("farezNickname");
+
+if (savedName) {
+  document.getElementById("nickname").value = savedName;
+  document.getElementById("greeting").textContent =
+    "Bienvenue, " + savedName + " !";
+}
+
+updateProfile();
 </script>
 
 </body>
